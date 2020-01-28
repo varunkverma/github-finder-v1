@@ -1,41 +1,27 @@
-import React, { Component } from "react";
+import React, { Fragment } from "react";
+import PropTypes from "prop-types";
+
 import UserItem from "../user-item/user-item.component";
+import Spinner from "../../spinner/spinner.component";
 
-class UserList extends Component {
-  state = {
-    users: [
-      {
-        login: "mojombo",
-        id: 1,
-        avatar_url: "https://avatars0.githubusercontent.com/u/1?v=4",
-        html_url: "https://github.com/mojombo"
-      },
-      {
-        login: "defunkt",
-        id: 2,
-        avatar_url: "https://avatars0.githubusercontent.com/u/2?v=4",
-        html_url: "https://github.com/defunkt"
-      },
-      {
-        login: "pjhyett",
-        id: 3,
-        avatar_url: "https://avatars0.githubusercontent.com/u/3?v=4",
-        html_url: "https://github.com/pjhyett"
-      }
-    ]
-  };
-
-  render() {
-    const { users } = this.state;
-    return (
+const UserList = ({ loading, users }) => (
+  <Fragment>
+    {loading ? (
+      <Spinner />
+    ) : (
       <div style={userListStyle}>
         {users.map(user => (
           <UserItem key={user.id} user={user} />
         ))}
       </div>
-    );
-  }
-}
+    )}
+  </Fragment>
+);
+
+UserList.propTypes = {
+  loading: PropTypes.bool.isRequired,
+  users: PropTypes.array.isRequired
+};
 
 const userListStyle = {
   display: "grid",
