@@ -3,16 +3,20 @@ import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 
 import Spinner from "../../spinner/spinner.component";
+import Repos from "../repos/repos.component";
 
 class UserProfile extends Component {
   componentDidMount() {
     this.props.getUser(this.props.match.params.login);
+    this.props.getUserRepos(this.props.match.params.login);
   }
 
   static propTypes = {
     loading: PropTypes.bool.isRequired,
     user: PropTypes.object.isRequired,
-    getUser: PropTypes.func.isRequired
+    getUser: PropTypes.func.isRequired,
+    repos: PropTypes.array.isRequired,
+    getUserRepos: PropTypes.func.isRequired
   };
 
   render() {
@@ -32,7 +36,7 @@ class UserProfile extends Component {
       hireable
     } = this.props.user;
 
-    const { loading } = this.props;
+    const { loading, repos } = this.props;
 
     if (loading) return <Spinner />;
 
@@ -101,6 +105,7 @@ class UserProfile extends Component {
             <div className="badge badge-dark">Public Gists: {public_gist}</div>
           )}
         </div>
+        <Repos repos={repos} />
       </Fragment>
     );
   }
